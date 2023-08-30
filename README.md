@@ -14,7 +14,7 @@ Este projeto faz parte de uma série de aprendizado em APIs. Nesta mesma série,
 - cors 2.8.5;
 - jsonwebtoken 9.0.1;
 - mysql2 3.6.0;
-- seuquelize3.6.0.
+- sequelize 3.6.0.
 
 ### Docência
 
@@ -43,6 +43,21 @@ Este projeto faz referência a uma modelagem hipotética de um game, da relaçã
 2. Para acessar o banco de dados, caso não queira manipular o BD via linha de comando, pode utilizar um ou mais softwares clientes, como [MySQL Workbench](https://www.mysql.com/products/workbench/) ou [DBeaver](https://dbeaver.io/).
 
 3. Para usuários Windows recomenda-se sempre utilizar o [Git Bash for Windows](https://gitforwindows.org/) a fim de executar comandos similares ao estilo linux das aulas. Pode usar o terminal do [Visual Studio Code](https://code.visualstudio.com/).
+
+## Organização do Projeto
+
+O projeto segue uma estrutura em MVC com arquivos individuais de rotas e validadores JSON:
+
+- /app
+  - /commons: helpers reutilizáveis pela aplicação;
+  - /controllers: os Controllers da aplicação;
+  - /middlewares: reúne todos os middlewares da aplicação;
+  - /models: reúne as Models e o inicializador index para o ORM;
+  - /routes: arquivos de rotas da aplicação;
+  - /schemas: os esquemas JSON utilizados para validações na aplicação;
+- bd: documentações sobre o banco de dados.
+- app.js: componente de inicialização do projeto.
+- config.js: reúne propriedades configuráveis globais da aplicação.
 
 ## Instalação e Configuração
 
