@@ -1,6 +1,9 @@
 module.exports = {
   port: process.env.PORT || 3000,
-  jwt: { secret: '!!Chave-secreta-app@!!', expiration: 3600 }, //3600 = 1 hora em segundos
+  jwt: {
+    secret: process.env.secret || '!!Chave-secreta-app@!!',
+    expiration: 3600,
+  }, //3600 = 1 hora em segundos
   dbconfig: {
     host: 'localhost',
     database: 'nome_db',
