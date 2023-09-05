@@ -1,15 +1,15 @@
 module.exports = {
   port: process.env.PORT || 3000,
   jwt: {
-    secret: process.env.secret || '!!Chave-secreta-app@!!',
+    secret: process.env.SECRET,
     expiration: 3600,
   }, //3600 = 1 hora em segundos
   dbconfig: {
-    host: 'localhost',
-    database: 'nome_db',
-    user: 'root',
-    passwd: 'senha_db',
-    dialect: 'mysql',
+    host: process.env.DBHOST,
+    database: process.env.DBNAME,
+    user: process.env.DBUSER,
+    passwd: process.env.DBPASS,
+    dialect: process.env.DBDIALECT,
     pool: {
       max: 5,
       min: 0,

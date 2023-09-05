@@ -65,10 +65,11 @@ O projeto segue uma estrutura em MVC com arquivos individuais de rotas e validad
 2. Instalar via npm o projeto:
 
 ```console
+dev@pc:~$ cp .env.example .env
 dev@pc:~$ npm install
 ```
 
-3. Copiar o config.js.example para config.js (arquivo de configuração) e preencher as propriedades de chave e banco de dados:
+3. Verifique se o primeiro comando resultou na cópia correta do .env.example para .env. Em seguida preencha corretamente todas as variáveis de ambiente do arquivo .env.
 
 4. Para executar o projeto, acesse o diretório da aplicação e execute um dos comandos abaixo:
 
