@@ -64,7 +64,9 @@ exports.update = (request, response) => {
       if (data) {
         Jogador.update(request.body, { where: { id: id } }).then((result) => {
           if (result) {
-            return response.status(200).json(data);
+            Jogador.findByPk(id).then((resultSearch) => {
+              return response.status(200).json(resultSearch);
+            });
           }
         });
       } else {
