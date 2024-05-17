@@ -79,7 +79,23 @@ dev@pc:~$ npm run dev
 dev@pc:~$ npx nodemon
 ```
 
-## Documentações
+## Documentação
+
+### Validação de dados JSON com Ajv
+
+Ao receber documentos JSON do cliente, este projeto utiliza a biblioteca Ajv para avaliar se na estrutura do documentos os dados encontram-se adequados conforme a necessidade do back-end. Para criar um schema de validação verifique exemplo em app/schemas. Poderá especificar regras de campos obrigatórios, tipos de dados que cada campo deve ser, dentre outros.
+
+Para utilizar o validador automatizado, no controller é necessário realizar a chamada do objeto do Ajv, informar o objeto de schema de validação (item anterior). Depois é necessário apenas informar o conjunto de dados recebido (pode ser o corpo da requisição) ao validador para que o mesmo avalie toda a estrutura. Um exemplo pode ser consultado no método create em app/controllers/JogadorController.
+
+### Banco de Dados
+
+Este projeto utiliza o ORM Sequelize, onde por meio do arquivo app/models/conexao.js é realizada a conexão com o banco de dados. A parametrização do Sequelize consta em config.js.
+
+Cada model do projeto (app/models) é uma classe com dados privados (comum em JS). Entretanto, na mesma classe, a Model do Seuqelize para cada entidade é inicializada. A ideia é que métodos comuns do ORM como create, update, dentre outros, sejam acopladas a classe comum da model. Isto facilita caso futuramente seja necessário trocar o Sequelize por outro framework. Cada model téncicamente exporta a sua classe e a model sequelize conectada, respectivamente.
+
+Em app/models/index.js é realizada a importação das models e a sincronização com banco de dados. A sincronização verifica se existe a tabela da model criada no BD e caso não existir, cria as tabelas necessárias. Em app/models/relations.js são implementados e configurados os relacionamentos entre as models (o que pode ser também feito dentro de cada classe), a partir destas configurações, quando o Sequelize for criar as tabelas, os relacionamentos também serão gerados.
+
+## Documentações Extermas
 
 [Express](https://expressjs.com/pt-br/)
 
