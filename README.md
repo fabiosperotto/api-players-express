@@ -95,6 +95,14 @@ Cada model do projeto (app/models) é uma classe com dados privados (comum em JS
 
 Em app/models/index.js é realizada a importação das models e a sincronização com banco de dados. A sincronização verifica se existe a tabela da model criada no BD e caso não existir, cria as tabelas necessárias. Em app/models/relations.js são implementados e configurados os relacionamentos entre as models (o que pode ser também feito dentro de cada classe), a partir destas configurações, quando o Sequelize for criar as tabelas, os relacionamentos também serão gerados.
 
+### Autenticação
+
+Para a utilização da API é necessário ter um token de acesso que deverá ser enviado pelo lado do cliente, via cabeçalho da requisição, para esta API autorizar o consumo de dados. No cabeçalho deve ser especificado Bearer token, onde token é gerado para um cliente conhecido. Um middleware em app/middlewares tem por responsabilidade ser o intermediário, avaliando se existe o token na requisição e se o mesmo é válido.
+
+O projeto segue o padrão de implementação de tokens via JWT Token. É necessário que um cliente que deseja utilizar a API faça o cadastro para se tornar um cliente conhecido e autorizado. Ao fazer o cadastro o token é gerado e retornado ao cliente. Por padrão cada token tem um tempo de validade definido em config.js (jwt.expiration).
+
+Também existe a implementação de login para os clientes, ao enviar e-mail e senha corretos para esta API, a mesma verificará as credenciais e irá gerar um token. No final desta mesma requisição o cliente deverá receber um token de acesso para utilizar normalmente a API.
+
 ## Documentações Extermas
 
 [Express](https://expressjs.com/pt-br/)
