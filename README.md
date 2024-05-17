@@ -31,7 +31,7 @@ Se você é docente da área, pode entrar em contato para obter slides e dicas s
 
 Este projeto faz referência a uma modelagem hipotética de um game, da relação entre um jogador e seus equipamentos.
 
-![Imagem da Modelagem inicial do sistema](/bd/modelagem-img.png)
+![Imagem da Modelagem inicial do sistema](/modelagem/modelagem-img.png)
 
 ## Pré-requisitos:
 
@@ -55,7 +55,7 @@ O projeto segue uma estrutura em MVC com arquivos individuais de rotas e validad
   - /models: reúne as Models e o inicializador index para o ORM;
   - /routes: arquivos de rotas da aplicação;
   - /schemas: os esquemas JSON utilizados para validações na aplicação;
-- bd: documentações sobre o banco de dados.
+- modelagem: documentações sobre o banco de dados.
 - app.js: componente de inicialização do projeto.
 - config.js: reúne propriedades configuráveis globais da aplicação.
 
