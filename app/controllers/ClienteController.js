@@ -1,5 +1,5 @@
 const models = require('../models');
-const Cliente = models.cliente;
+const Cliente = models.cliente.Cliente;
 const Ajv = require('ajv');
 const ajv = new Ajv();
 const schema = require('../schemas/cliente/novoCliente.js');
@@ -25,10 +25,7 @@ exports.create = (request, response) => {
   Cliente.create(cliente)
     .then((data) => {
       data.setDataValue('senha', '');
-      data.setDataValue(
-        'token',
-        helper.gerarTokenAcesso(cliente.nome, cliente.id)
-      );
+      data.setDataValue('token', helper.gerarTokenAcesso(cliente.nome, cliente.id));
       return response.status(201).json(data);
     })
     .catch((erro) => {
@@ -44,21 +41,20 @@ exports.login = (request, response) => {
     return response.status(400).send({
       message: validacaoLogin.errors[0].message,
     });
-    return;
   }
 
-  let cliente = request.body;
-  cliente.senha = helper.hashSenha(cliente.senha);
+  let dados = request.body;
+  dados.senha = helper.hashSenha(dados.senha);
 
-  Cliente.findOne({ where: cliente })
-    .then((data) => {
-      if (!data) {
+  Cliente.findOne(dados)
+    .then((registro) => {
+      if (!registro) {
         return response.status(404).json({
           message: 'Cliente ou senha nao foram encontrados',
         });
       }
       return response.status(200).json({
-        token: helper.gerarTokenAcesso(data.nome, data.id),
+        token: helper.gerarTokenAcesso(registro.nome, registro.id),
       });
     })
     .catch((erro) => {

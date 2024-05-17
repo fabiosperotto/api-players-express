@@ -5,13 +5,19 @@ const schema = require('../schemas/jogador/novoJogador.js');
 const validacao = ajv.compile(schema);
 //models
 const models = require('../models');
-const Jogador = models.jogador;
-const Equipamento = models.equipamento;
+const Jogador = models.jogador.Jogador;
 
 exports.findAll = (request, response) => {
-  Jogador.findAll({ include: Equipamento }) // {where: ...}
+  const equipamentoModel = models.equipamento.EquipamentoModel;
+  Jogador.findAll(equipamentoModel)
     .then((data) => {
-      response.status(200).json(data);
+      if (data) {
+        return response.status(200).json(data);
+      } else {
+        return response.status(404).json({
+          message: 'jogador nao encontrado',
+        });
+      }
     })
     .catch((erro) => {
       response.status(500).json({
@@ -33,7 +39,7 @@ exports.findOne = (request, response) => {
       }
     })
     .catch((erro) => {
-      response.status(500).json({
+      return response.status(500).json({
         message: erro.message,
       });
     });
@@ -42,10 +48,13 @@ exports.findOne = (request, response) => {
 exports.create = (request, response) => {
   let validacoes = validacao(request.body);
   if (!validacoes) {
+    let mensagem = validacao.errors[0].instancePath.replace('/', '');
+    mensagem += ' ' + validacao.errors[0].message;
     return response.status(400).json({
-      message: validacao.errors[0].message,
+      message: mensagem,
     });
   }
+
   Jogador.create(request.body)
     .then((data) => {
       return response.status(201).json(data);
@@ -59,24 +68,29 @@ exports.create = (request, response) => {
 
 exports.update = (request, response) => {
   const id = request.params.id;
+
   Jogador.findByPk(id)
-    .then((data) => {
-      if (data) {
-        Jogador.update(request.body, { where: { id: id } }).then((result) => {
-          if (result) {
-            Jogador.findByPk(id).then((resultSearch) => {
-              return response.status(200).json(resultSearch);
-            });
-          }
-        });
-      } else {
+    .then((buscaJogador) => {
+      if (buscaJogador === null) {
         return response.status(404).json({
           message: 'jogador nao encontrado',
+        });
+      } else {
+        Jogador.update(request.body, id).then((atualizado) => {
+          if (atualizado) {
+            Jogador.findByPk(id).then((jogadorAtualizado) => {
+              return response.status(200).json(jogadorAtualizado);
+            });
+          } else {
+            return response.status(500).json({
+              message: 'ocorreu algum problema no servidor',
+            });
+          }
         });
       }
     })
     .catch((erro) => {
-      response.status(500).json({
+      return response.status(500).json({
         message: erro.message,
       });
     });
@@ -84,10 +98,9 @@ exports.update = (request, response) => {
 
 exports.delete = (request, response) => {
   const id = request.params.id;
-  Jogador.findByPk(id)
-    .then((data) => {
-      if (data) {
-        data.destroy();
+  Jogador.delete(id)
+    .then((removido) => {
+      if (removido) {
         return response.status(200).json({
           message: 'jogador excluido com sucesso',
         });
