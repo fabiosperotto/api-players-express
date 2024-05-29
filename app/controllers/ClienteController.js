@@ -10,9 +10,11 @@ const validacaoLogin = ajv.compile(schemaLogin);
 
 exports.create = (request, response) => {
   let validacoes = validacao(request.body);
-  if (validacoes == false) {
-    return response.status(400).send({
-      message: validacao.errors[0].message,
+  if (!validacoes) {
+    let mensagem = validacao.errors[0].instancePath.replace('/', '');
+    mensagem += ' ' + validacao.errors[0].message;
+    return response.status(400).json({
+      message: mensagem,
     });
   }
 
@@ -37,9 +39,11 @@ exports.create = (request, response) => {
 
 exports.login = (request, response) => {
   let validacoes = validacaoLogin(request.body);
-  if (validacoes == false) {
-    return response.status(400).send({
-      message: validacaoLogin.errors[0].message,
+  if (!validacoes) {
+    let mensagem = validacao.errors[0].instancePath.replace('/', '');
+    mensagem += ' ' + validacao.errors[0].message;
+    return response.status(400).json({
+      message: mensagem,
     });
   }
 
