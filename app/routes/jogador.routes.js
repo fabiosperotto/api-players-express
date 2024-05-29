@@ -1,13 +1,13 @@
 const express = require('express');
 var router = express.Router();
 const jogadorController = require('../controllers/JogadorController.js');
-const authMiddleware = require('../middlewares/isAutenticado.js');
+const authMiddleware = require('../middlewares/TokenValido.js');
 
 //retorna todos os jogadores
 router.get('/jogador', [authMiddleware.check], jogadorController.findAll);
 
 //recupera um jogador pelo seu id
-router.get('/jogador/:id', [authMiddleware.check], jogadorController.findOne);
+router.get('/jogador/:id', [authMiddleware.check], jogadorController.find);
 
 //cria um novo jogador
 router.post('/jogador', [authMiddleware.check], jogadorController.create);
