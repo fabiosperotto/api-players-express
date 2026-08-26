@@ -97,7 +97,7 @@ Em app/models/index.js é realizada a importação das models e a sincronizaçã
 
 ### Autenticação
 
-Para a utilização da API é necessário ter um token de acesso que deverá ser enviado pelo lado do cliente, via cabeçalho da requisição, para esta API autorizar o consumo de dados. No cabeçalho deve ser especificado Bearer token, onde token é gerado para um cliente conhecido. Um middleware em app/middlewares tem por responsabilidade ser o intermediário, avaliando se existe o token na requisição e se o mesmo é válido.
+Para a utilização da API é necessário ter um token de acesso que deverá ser enviado pelo lado do cliente, via cabeçalho da requisição, para esta API autorizar o consumo de dados (POST /cliente). No cabeçalho deve ser especificado Bearer token, onde token é gerado para um cliente conhecido. Um middleware em app/middlewares tem por responsabilidade ser o intermediário, avaliando se existe o token na requisição e se o mesmo é válido.
 
 O projeto segue o padrão de implementação de tokens via JWT Token. É necessário que um cliente que deseja utilizar a API faça o cadastro para se tornar um cliente conhecido e autorizado. Ao fazer o cadastro o token é gerado e retornado ao cliente. Por padrão cada token tem um tempo de validade definido em config.js (jwt.expiration).
 
