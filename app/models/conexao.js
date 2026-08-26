@@ -2,8 +2,11 @@ const config = require('../../config.js');
 const dbconfig = config.dbconfig;
 const Sequelize = require('sequelize');
 
-const conexao = new Sequelize(dbconfig.database, dbconfig.user, dbconfig.passwd, {
+const conexao = new Sequelize({
   host: dbconfig.host,
+  username: dbconfig.user,
+  password: dbconfig.passwd,
+  database: dbconfig.database,
   dialect: dbconfig.dialect,
   pool: {
     max: dbconfig.pool.max,
