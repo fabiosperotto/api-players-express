@@ -1,137 +1,63 @@
-const Sequelize = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const db = require('./conexao.js');
 
-class Jogador {
-  #nome;
-  #ataque;
-  #defesa;
-  #pontos_vida;
+class Jogador extends Model {
+    // constructor(nome, ataque, defesa, hp){
 
-  // constructor(nome, ataque, defesa, pontos_vida = null ) {
-  constructor() {}
+    // }
+    // constructor() {
+    //     super();
+    // }
 
-  get nome() {
-    return this.#nome;
-  }
-  set nome(nome) {
-    this.#nome = nome;
-  }
+    //sequencia de getters e setters
 
-  get ataque() {
-    return this.#ataque;
-  }
-  set ataque(ataque) {
-    this.#ataque = ataque;
-  }
-
-  get defesa() {
-    return this.#defesa;
-  }
-  set defesa(defesa) {
-    this.#defesa = defesa;
-  }
-
-  get pontos_vida() {
-    return this.#pontos_vida;
-  }
-  set pontos_vida(hp) {
-    this.#pontos_vida = hp;
-  }
-
-  static async findByPk(id) {
-    try {
-      const resultado = await JogadorModel.findByPk(id);
-      if (resultado) {
-        return resultado;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      throw error;
+    static async findAllComEquipamentos() {
+        return this.findAll({
+            include: {
+                association: 'equipamentos',
+                required: false
+            }
+        });
     }
-  }
 
-  static async findAll(equipamento) {
-    try {
-      const resultados = await JogadorModel.findAll({ include: equipamento }); //{where ...}
-      if (resultados) {
-        return resultados;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
 
-  static async create(novoJogador) {
-    try {
-      const jogador = await JogadorModel.create({
-        nome: novoJogador.nome,
-        ataque: novoJogador.ataque,
-        defesa: novoJogador.defesa,
-        pontos_vida: novoJogador.pontos_vida,
-      });
-      return jogador;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  static async update(dados, idjogador) {
-    try {
-      const resultado = await JogadorModel.update(dados, { where: { id: idjogador } });
-
-      console.log('update model', resultado);
-      if (resultado) {
-        return resultado;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  static async delete(id) {
-    try {
-      const data = await JogadorModel.findByPk(id);
-      if (data) {
-        data.destroy();
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
 }
 
-const JogadorModel = db.define('jogador', {
-  id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
-    allowNull: false,
-    primaryKey: true,
-  },
-  nome: {
-    type: Sequelize.STRING(80),
-    allowNull: false,
-  },
-  ataque: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  defesa: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  pontos_vida: {
-    type: Sequelize.INTEGER,
-    allowNull: true,
-    defaultValue: 100,
-  },
-});
+Jogador.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
+            primaryKey: true
+        },
 
-module.exports = { Jogador, JogadorModel };
+        nome: {
+            type: DataTypes.STRING(80),
+            allowNull: false
+        },
+
+        ataque: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        defesa: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        pontos_vida: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: 100
+        }
+    },
+    {
+        sequelize: db,
+        modelName: 'Jogador',
+        tableName: 'jogador'
+    }
+);
+
+module.exports = Jogador;

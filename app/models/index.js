@@ -3,12 +3,12 @@ const conexao = require('./conexao.js');
 const db = {}; //armazenar as classes e models
 
 //importar aqui para atribuir na lista de models e inicializar o BD:
-db.jogador = require('./Jogador.js');
-db.equipamento = require('./Equipamento.js');
-db.cliente = require('./Cliente.js');
-
-//lista de associacoes
+require('./Jogador.js');
+require('./Equipamento.js');
+require('./Cliente.js');
+console.log(conexao.models);
 require('./relations.js')(conexao.models);
+
 
 //conectando e sincronizando com BD
 conexao

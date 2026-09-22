@@ -17,7 +17,7 @@ const conexao = new Sequelize({
   define: {
     underscored: dbconfig.define.underscored,
     freezeTableName: dbconfig.define.freezeTableName,
-    timestamps: dbconfig.define,
+    timestamps: dbconfig.define.timestamps,
     paranoid: dbconfig.define.paranoid,
   },
   dialectOptions: {

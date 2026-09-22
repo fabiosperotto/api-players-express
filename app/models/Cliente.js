@@ -1,72 +1,52 @@
-const Sequelize = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const db = require('./conexao.js');
 
-class Cliente {
-  #nome;
-  #email;
-  #senha;
+class Cliente extends Model {
+    //#nome;
+    //#email;
+    //#senha;
 
-  construct() {}
+    //constructor() { 
+    //    super();
+    //}
 
-  get nome() {
-    return this.#nome;
-  }
-  set nome(nome) {
-    this.#nome = nome;
-  }
 
-  get email() {
-    return this.#email;
-  }
-  set email(email) {
-    this.#email = email;
-  }
-
-  get senha() {
-    return this.#senha;
-  }
-  set senha(senha) {
-    this.#senha = senha;
-  }
-
-  static async create(novoCliente) {
-    try {
-      const cliente = await ClienteModel.create({
-        nome: novoCliente.nome,
-        email: novoCliente.email,
-        senha: novoCliente.senha,
-      });
-      return cliente;
-    } catch (error) {
-      throw error;
+    
+    static async findOne(dados) {
+        return super.findOne({
+            where: dados
+        });
     }
-  }
-
-  static async findOne(dados) {
-    try {
-      const resultado = await ClienteModel.findOne({ where: dados });
-      if (resultado) {
-        return resultado;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
 }
-const ClienteModel = db.define('cliente', {
-  nome: {
-    type: Sequelize.STRING(200),
-    allowNull: true,
-  },
-  email: {
-    type: Sequelize.STRING(80),
-    allowNull: false,
-  },
-  senha: {
-    type: Sequelize.STRING(64),
-    allowNull: false,
-  },
-});
-module.exports = { Cliente, ClienteModel };
+
+
+Cliente.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
+            primaryKey: true
+        },
+
+        nome: {
+            type: DataTypes.STRING(200),
+            allowNull: true,
+        },
+        email: {
+            type: DataTypes.STRING(80),
+            allowNull: false,
+        },
+        senha: {
+            type: DataTypes.STRING(64),
+            allowNull: false,
+        }
+    },
+    {
+        sequelize: db,
+        modelName: 'Cliente',
+        tableName: 'cliente'
+    }
+);
+
+module.exports = Cliente;
